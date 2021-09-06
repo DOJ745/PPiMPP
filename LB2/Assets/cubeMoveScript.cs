@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cubeScript : MonoBehaviour
+public class cubeMoveScript : MonoBehaviour
 {
     public float speed;
     // Start is called before the first frame update
