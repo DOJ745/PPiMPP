@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class cubesMoveScript : MonoBehaviour
 {
+    public float speed = 1;
     public GameObject obj;
     // Start is called before the first frame update
     void Start()
@@ -14,6 +15,6 @@ public class cubesMoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, obj.transform.position, Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, obj.transform.position, Time.deltaTime * speed);
     }
 }

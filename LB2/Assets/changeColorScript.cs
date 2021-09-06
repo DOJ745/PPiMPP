@@ -14,7 +14,7 @@ public class changeColorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("space")) {
+        if(Input.GetKeyDown("c")) {
             renderer.material.color = Color.red;
         }
         
