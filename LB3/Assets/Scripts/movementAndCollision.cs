@@ -19,7 +19,7 @@ public class movementAndCollision : MonoBehaviour
         if( myObject.gameObject.name == "RedCube" || myObject.gameObject.name == "RedCube(Clone)" ) 
         {
             Debug.Log("Hit the red cube");
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.3f);
         }
     }
 

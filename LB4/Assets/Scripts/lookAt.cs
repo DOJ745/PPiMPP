@@ -37,6 +37,10 @@ public class lookAt : MonoBehaviour
                 renderer.material.color = Color.red;
                 transform.position = Vector3.MoveTowards(transform.position, followedObj.transform.position, speed * Time.deltaTime);
             }
+            else
+            {
+                renderer.material.color = Color.white;
+            }
         }
         
     }
