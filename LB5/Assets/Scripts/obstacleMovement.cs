@@ -7,6 +7,10 @@ public class obstacleMovement : MonoBehaviour
     public float speed = .2f;
 	public float strength = 9f;
 
+	public bool allowX = true;
+	public bool allowY = false;
+	public bool allowZ = false;
+
 	private float randomOffset;
 
 	// Use this for initialization
@@ -17,7 +21,22 @@ public class obstacleMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		Vector3 pos = transform.position;
-		pos.x = Mathf.Sin(Time.time * speed + randomOffset) * strength;
+
+		if(allowX)
+		{
+			pos.x = Mathf.Sin(Time.time * speed + randomOffset) * strength;
+		}
+
+		if(allowY)
+		{
+			pos.y = Mathf.Sin(Time.time * speed + randomOffset) * strength;
+		}
+		
+		if(allowZ)
+		{
+			pos.z = Mathf.Sin(Time.time * speed + randomOffset) * strength;
+		}
+		
 		transform.position = pos;
 	}
 }
