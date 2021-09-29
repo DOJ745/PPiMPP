@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pushCube : MonoBehaviour
+public class PushCube : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Camera current_camera;
-    //public Rigidbody rigidBody;
-    //public float force;
 
-    public float xForce = 1.0f;
-    public float yForce = 1.0f;
-    public float zForce = 1.0f;
+    private float inputXForce = 1.0f;
+    private float inputYForce = 1.0f;
+    private float inputZForce = 0.0f;
+
+    public Camera current_camera;
 
     void Start()
     {
@@ -21,13 +19,14 @@ public class pushCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         float rndRed = Random.Range(0.0f, 1.0f);
         float rndGreen = Random.Range(0.0f, 1.0f);
         float rndBlue = Random.Range(0.0f, 1.0f);
 
         Color randomColor = new Color(rndRed, rndGreen, rndBlue, 1.0f);
 
-        Vector3 apllyingForce = new Vector3(xForce, yForce, zForce);
+        Vector3 apllyingForce = new Vector3(inputXForce, inputYForce, inputZForce);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -38,11 +37,29 @@ public class pushCube : MonoBehaviour
             {
                 Renderer current_renderer = hit.collider.GetComponent<Renderer>();
                 hit.rigidbody.AddForce(apllyingForce, ForceMode.Impulse);
-                current_renderer.material.color = randomColor;
-                //agent.SetDestination(hit.point);
-                //rigidBody.AddForce(apllyingForce, ForceMode.Impulse);
+
+                if(current_renderer != null)
+                    current_renderer.material.color = randomColor;
             }
         }
         
+    }
+
+    public void ReadXInput(string input)
+    {
+        Debug.Log("Input for X - " + input);
+        inputXForce = float.Parse(input);
+    }
+
+    public void ReadYInput(string input)
+    {
+        Debug.Log("Input for Y - " + input);
+        inputYForce = float.Parse(input);
+    }
+
+    public void ReadZInput(string input)
+    {
+        Debug.Log("Input for Z - " + input);
+        inputZForce = float.Parse(input);
     }
 }
