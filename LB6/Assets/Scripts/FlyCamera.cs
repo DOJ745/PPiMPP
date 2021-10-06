@@ -6,13 +6,15 @@ public class FlyCamera : MonoBehaviour
 {
 
     /*
-    Writen by Windexglow 11-13-10.  Use it, edit it, steal it I don't care.  
+    Writen by Windexglow 11-13-10.  Use it, edit it, steal it, I don't care.  
     Converted to C# 27-02-13 - no credit wanted.
+
     Simple flycam I made, since I couldn't find any others made public.  
     Made simple to use (drag and drop, done) for regular keyboard layout  
-    wasd : basic movement
-    shift : Makes camera accelerate
-    space : Moves camera on X and Z axis only.  So camera doesn't gain any height*/
+
+    WASD : basic movement
+    Shift : Makes camera accelerate
+    Space : Moves camera on X and Z axis only.  So camera doesn't gain any height*/
 
     // Regular speed
     public float mainSpeed = 100.0f;
@@ -24,7 +26,7 @@ public class FlyCamera : MonoBehaviour
     public float maxShift = 1000.0f; 
 
     // How sensitive it with mouse
-    public float camSens = 0.25f;
+    public float camSens = 0.21f;
 
     // Kind of in the middle of the screen, rather than at the top (play)
     private Vector3 lastMouse = new Vector3(0, 5.5f, -11);
@@ -45,37 +47,37 @@ public class FlyCamera : MonoBehaviour
 
         // Keyboard commands
         float f = 0.0f;
-        Vector3 p = GetBaseInput();
-        if (p.sqrMagnitude > 0)
+        Vector3 pos = GetBaseInput();
+        if (pos.sqrMagnitude > 0)
         { 
             // Only move while a direction key is pressed
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 totalRun += Time.deltaTime;
-                p = p * totalRun * shiftAdd;
-                p.x = Mathf.Clamp(p.x, -maxShift, maxShift);
-                p.y = Mathf.Clamp(p.y, -maxShift, maxShift);
-                p.z = Mathf.Clamp(p.z, -maxShift, maxShift);
+                pos = pos * totalRun * shiftAdd;
+                pos.x = Mathf.Clamp(pos.x, -maxShift, maxShift);
+                pos.y = Mathf.Clamp(pos.y, -maxShift, maxShift);
+                pos.z = Mathf.Clamp(pos.z, -maxShift, maxShift);
             }
             else
             {
                 totalRun = Mathf.Clamp(totalRun * 0.5f, 1f, 1000f);
-                p = p * mainSpeed;
+                pos = pos * mainSpeed;
             }
 
-            p = p * Time.deltaTime;
+            pos = pos * Time.deltaTime;
             Vector3 newPosition = transform.position;
             if (Input.GetKey(KeyCode.Space))
             { 
                 //If player wants to move on X and Z axis only
-                transform.Translate(p);
+                transform.Translate(pos);
                 newPosition.x = transform.position.x;
                 newPosition.z = transform.position.z;
                 transform.position = newPosition;
             }
             else
             {
-                transform.Translate(p);
+                transform.Translate(pos);
             }
         }
     }
