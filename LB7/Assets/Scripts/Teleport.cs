@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Teleport : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Teleport : MonoBehaviour
         {
             Debug.Log("Entered the teleport");
             this.transform.position = exit.transform.position; 
+        }
+        if(myCollision.gameObject.name == "New Level")
+        {
+            SceneManager.LoadScene("Labirint");
         }
     }
     // Start is called before the first frame update
