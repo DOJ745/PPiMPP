@@ -764,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exit: {fileID: 1083858318}
+  levelName: Labirint
 --- !u!1001 &1083858317
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Teleport : MonoBehaviour
 {
     public GameObject exit;
+    public string levelName;
 
     private void OnCollisionEnter(Collision myCollision)
     {
@@ -16,7 +17,7 @@ public class Teleport : MonoBehaviour
         }
         if(myCollision.gameObject.name == "New Level")
         {
-            SceneManager.LoadScene("Labirint");
+            SceneManager.LoadScene(levelName);
         }
     }
     // Start is called before the first frame update
