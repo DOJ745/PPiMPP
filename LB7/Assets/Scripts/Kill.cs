@@ -8,7 +8,9 @@ public class Kill : MonoBehaviour
     // Start is called before the first frame update
     public Camera currentCamera;
     public Text score;
+
     private static int points = 0;
+    private GameObject marker;
     void Start()
     {
         currentCamera = this.GetComponent<Camera>();
@@ -24,9 +26,13 @@ public class Kill : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if(hit.collider.gameObject.name == "Enemy" || hit.collider.gameObject.name == "EnemySphere")
+                if(hit.collider.gameObject.name == "Enemy" || 
+                    hit.collider.gameObject.name == "EnemySphere")
                 {
+                    marker = GameObject.Find("Enemy Marker");
                     Destroy(hit.collider.gameObject);
+                    Destroy(marker);
+
                     points++;
                     PlayerScore(points);
                 }
@@ -38,6 +44,5 @@ public class Kill : MonoBehaviour
     {
         Debug.Log("Gained point!");
         score.text = "Score:" + point;
-        //inputXForce = float.Parse(input);
     }
 }
