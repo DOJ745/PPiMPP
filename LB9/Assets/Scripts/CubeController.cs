@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class CubeController : MonoBehaviour
 {
     public float maxSpeed = 10f;
     public float jumpForce = 700f;
@@ -18,6 +18,8 @@ public class CharacterController : MonoBehaviour
 
     private Rigidbody2D rigidBody;
     // Start is called before the first frame update
+
+
     void Start()
     {
         rigidBody = this.GetComponent<Rigidbody2D>();
@@ -30,30 +32,34 @@ public class CharacterController : MonoBehaviour
 
         move = Input.GetAxis("Horizontal");
 
+
         if (grounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             rigidBody.AddForce(new Vector2(0f, jumpForce));
+            SoundManagerScript.PlaySound("jump");
         }
 
         rigidBody.velocity = new Vector2(move * maxSpeed, rigidBody.velocity.y);
 
         if (move > 0 && !facingRight)
+        {
             Flip();
+        }
+            
         else if (move < 0 && facingRight)
+        {
             Flip();
+        }
+            
 
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
         }
 
-        /*if (Input.GetKey(KeyCode.R))
-        {
-            Application.LoadLevel(Application.loadedLevel);
-        }*/
-
         void Flip()
         {
+            SoundManagerScript.PlaySound("walking");
             facingRight = !facingRight;
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
