@@ -45,6 +45,12 @@ public class CubeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        for (int i =0; i < Input.touchCount; i++)
+        {
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.touches[i].position);
+            Debug.DrawLine(Vector3.zero, touchPosition, Color.red);
+        }
+
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 
         move = Input.GetAxis("Horizontal");
@@ -58,15 +64,8 @@ public class CubeController : MonoBehaviour
 
         rigidBody.velocity = new Vector2(move * maxSpeed, rigidBody.velocity.y);
 
-        if (move > 0 && !facingRight)
-        {
-            Flip();
-        }
-            
-        else if (move < 0 && facingRight)
-        {
-            Flip();
-        }
+        if (move > 0 && !facingRight) { Flip(); }
+        else if (move < 0 && facingRight) { Flip(); }
             
 
         if (points == 5)
