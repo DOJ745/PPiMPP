@@ -5,17 +5,14 @@ using UnityEngine.UI;
 
 public class CubeController : MonoBehaviour
 {
+    [SerializeField] private LayerMask platformLayerMask;
+
     private static int points = 0;
 
     public float maxSpeed = 10f;
     public float jumpForce = 700f;
 
     bool facingRight = true;
-    bool grounded = false;
-
-    public Transform groundCheck;
-    public float groundRadius = 0.2f;
-    public LayerMask whatIsGround;
 
     public float move;
     public Text score;
@@ -23,13 +20,14 @@ public class CubeController : MonoBehaviour
     public Joystick joystick;
 
     private Rigidbody2D rigidBody;
-    // Start is called before the first frame update
+
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.collider == true)
-        {
-            SoundManagerScript.PlaySound("walking");
+        if (coll.collider == true) {
+            Debug.Log(coll.collider);
+            SoundManagerScript.PlaySound("walking"); 
         }
+
         if(coll.collider.gameObject.name == "Coin")
         {
             SoundManagerScript.PlaySound("getCoin");
@@ -45,15 +43,11 @@ public class CubeController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
-
-        //move = Input.GetAxis("Horizontal");
         move = joystick.Horizontal;
 
-
-        if (grounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (joystick.Vertical > 0.35f) ))
+        if ( (joystick.Vertical > 0.35f) && IsGrounded() )
         {
             rigidBody.AddForce(new Vector2(0f, jumpForce));
             SoundManagerScript.PlaySound("jump");
@@ -80,7 +74,27 @@ public class CubeController : MonoBehaviour
         }
     }
 
+    private bool IsGrounded()
+    {
+        Color rayColor;
+        float extraHeightTest = 0.1f;
 
+        RaycastHit2D raycastHit = Physics2D.Raycast(
+            GetComponent<BoxCollider2D>().bounds.center, 
+            Vector2.down, 
+            GetComponent<BoxCollider2D>().bounds.extents.y + extraHeightTest,
+            platformLayerMask);
+
+        Debug.Log(raycastHit);
+        if (raycastHit.collider != null) { rayColor = Color.green; }
+        else { rayColor = Color.black; }
+
+        Debug.DrawRay(GetComponent<BoxCollider2D>().bounds.center, 
+            Vector2.down * (GetComponent<BoxCollider2D>().bounds.extents.y + extraHeightTest),
+            rayColor);
+
+        return raycastHit.collider != null;
+    }
     private void PlayerScore(int point)
     {
         Debug.Log("Gained point!");
