@@ -20,6 +20,8 @@ public class CubeController : MonoBehaviour
     public float move;
     public Text score;
 
+    public Joystick joystick;
+
     private Rigidbody2D rigidBody;
     // Start is called before the first frame update
     private void OnCollisionEnter2D(Collision2D coll)
@@ -43,20 +45,15 @@ public class CubeController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        for (int i =0; i < Input.touchCount; i++)
-        {
-            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.touches[i].position);
-            Debug.DrawLine(Vector3.zero, touchPosition, Color.red);
-        }
-
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 
-        move = Input.GetAxis("Horizontal");
+        //move = Input.GetAxis("Horizontal");
+        move = joystick.Horizontal;
 
 
-        if (grounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        if (grounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || (joystick.Vertical > 0.35f) ))
         {
             rigidBody.AddForce(new Vector2(0f, jumpForce));
             SoundManagerScript.PlaySound("jump");
