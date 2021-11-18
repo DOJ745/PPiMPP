@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CubeController : MonoBehaviour
@@ -61,8 +62,7 @@ public class CubeController : MonoBehaviour
 
         if (points == 5)
         {
-            score.text = "You collected all coins!";
-            Application.Quit();
+            SceneManager.LoadScene("Win");
         }
 
         void Flip()
