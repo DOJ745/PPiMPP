@@ -3,11 +3,12 @@ from __future__ import print_function
 
 import cv2
 import sys
-
 import numpy as np
 import argparse
 
-def buildHist(img_bgr_planes):
+def buildHist(img):
+    img_bgr_planes = cv2.split(img)
+
     histSize = 256
     histRange = (0, 256)  # the upper boundary is exclusive
     accumulate = False
@@ -49,7 +50,7 @@ img = cv2.imread(path)
 
 if img is None:
     sys.exit("Could not read the image.")
-cv2.imshow("Basic image", img)
+cv2.imshow("Source image", img)
 
 img_grey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 cv2.imshow("Gray image", img_grey)
@@ -87,14 +88,12 @@ img_ycrcb[:, :, 0] = cv2.equalizeHist(img_ycrcb[:, :, 0])
 # convert back to RGB from YCrCb
 img_ycrcb_output = cv2.cvtColor(img_ycrcb, cv2.COLOR_YCrCb2BGR)
 
-src_bgr_planes = cv2.split(src)
-yuv_bgr_planes = cv2.split(img_yuv_output)
-ycrcb_bgr_planes = cv2.split(img_ycrcb_output)
 
-cv2.imshow('Source image MOUNTAIN', buildHist(src_bgr_planes))
-cv2.imshow('YUV Hist', buildHist(yuv_bgr_planes))
-cv2.imshow('YCrCb hist', buildHist(ycrcb_bgr_planes))
+cv2.imshow('Source image Hist MOUNTAIN', buildHist(src))
+cv2.imshow('YUV Hist', buildHist(img_yuv_output))
+cv2.imshow('YCrCb hist', buildHist(img_ycrcb_output))
 
+cv2.imshow('Source image MOUNTAIN', src)
 cv2.imshow('Equalized image YUV', img_yuv_output)
 cv2.imshow('Equalized image YCrCb',img_ycrcb_output)
 
