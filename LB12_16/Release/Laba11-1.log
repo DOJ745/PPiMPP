@@ -1,0 +1,10 @@
+﻿  Laba11-1.cpp
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(12,5): error C2065: Mat: необъявленный идентификатор
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(12,9): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "img"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(12,9): error C2065: img: необъявленный идентификатор
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(12,73): error C2065: CV_LOAD_IMAGE_COLOR: необъявленный идентификатор
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(12,15): error C3861: imread: идентификатор не найден
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(13,35): error C2065: WINDOW_AUTOSIZE: необъявленный идентификатор
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(13,5): error C3861: namedWindow: идентификатор не найден
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(14,30): error C2065: img: необъявленный идентификатор
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(14,5): error C3861: imshow: идентификатор не найден

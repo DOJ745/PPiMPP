@@ -1,0 +1,15 @@
+﻿  Laba11-1.cpp
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(58,21): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(59,20): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(60,21): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(62,20): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(64,20): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(66,21): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(67,20): warning C4305: =: усечение из "double" в "float"
+D:\Универ\4_1\Unity\Laba11-1\Laba11-1\Laba11-1.cpp(68,21): warning C4305: =: усечение из "double" в "float"
+  Создание кода
+  11 of 189 functions ( 5.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  Laba11-1.vcxproj -> D:\Универ\4_1\Unity\Laba11-1\x64\Release\Laba11-1.exe
