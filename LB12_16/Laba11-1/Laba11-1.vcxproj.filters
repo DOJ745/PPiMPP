@@ -15,14 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Laba11-1.cpp">
+    <ClCompile Include="MAIN.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="1556708032_1.jpg">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
     <Image Include="money.jpg">
       <Filter>Файлы ресурсов</Filter>
     </Image>
