@@ -23,13 +23,7 @@
     <Image Include="money.jpg">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="city.jpg">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
     <Image Include="sydoku.jpg">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="circle.jpg">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

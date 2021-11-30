@@ -35,7 +35,7 @@ void thresh_callback(int, void*)
 
 Mat imgCH;
 int max_thresh = 255;
-const char* source_window = "SOURCE image";
+const char* SOURCE_WINDOW = "SOURCE image";
 const char* corners_window = "CORNERS detected";
 void cornerHarris_demo(int, void*);
 
@@ -161,14 +161,14 @@ static void LB13()
             cout << "ERROR: Can't grab camera frame." << endl;
             break;
         }
-        if (enableProcessing==0) { imshow("Frame", frame); }
+        if (enableProcessing == 0) { imshow("Frame", frame); }
 
         if (enableProcessing == 1)
         {
             Mat processed;
             Sobel(frame, processed, -1, 1, 0);
 
-            imshow("Frame", processed);
+            imshow("SOBEL Frame", processed);
         }
 
         if (enableProcessing == 2)
@@ -176,7 +176,7 @@ static void LB13()
             Mat processed;
             Laplacian(frame, processed, -1);
 
-            imshow("Frame", processed);
+            imshow("LAPLACIAN Frame", processed);
         }
 
         if (enableProcessing == 3)
@@ -193,8 +193,9 @@ static void LB13()
             // применение детектора Кэнни
             Canny(grayImg, edgesImg, lowThreshold, uppThreshold);
 
-            imshow("Frame", edgesImg);
+            imshow("EDGES Frame", edgesImg);
         }
+
         int key = waitKey(1);
         if (key == 27/*ESC*/) break;
         if (key == 32/*SPACE*/)
@@ -222,25 +223,24 @@ static void LB14()
 
     waitKey();
 
-    const char* source_window = "Source";
-
-    namedWindow(source_window);
-    imshow(source_window, img);
+    namedWindow(SOURCE_WINDOW);
+    imshow(SOURCE_WINDOW, img);
 
     const int max_thresh = 255;
     thresh_callback(0, 0);
 
     waitKey();
 
-    img = imread("sydoku.jpg", 1);
+    img = imread("nonogram.png", 1);
     Mat dst, cdst, cdstP;
 
     Canny(img, dst, 50, 200, 3);
     cvtColor(dst, cdst, COLOR_GRAY2BGR);
 
     cdstP = cdst.clone();
-    vector<Vec2f> lines; // will hold the results of the detection
-    HoughLines(dst, lines, 1, CV_PI / 180, 150, 0, 0); // runs the actual detection
+    vector<Vec2f> lines;
+
+    HoughLines(dst, lines, 1, CV_PI / 180, 150, 0, 0);
 
     for (size_t i = 0; i < lines.size(); i++)
     {
@@ -256,16 +256,14 @@ static void LB14()
 
         line(cdst, pt1, pt2, Scalar(0, 0, 255), 3, LINE_AA);
     }
-    // Probabilistic Line Transform
     
-    // Show results
-    imshow("Source", img);
+    imshow(SOURCE_WINDOW, img);
     imshow("Detected Lines (in red) - Standard Hough Line Transform", cdst);
-    //imshow("Detected Lines (in red) - Probabilistic Line Transform", cdstP);
+    imshow("Detected Lines (in black) - Probabilistic Line Transform", cdstP);
 
     waitKey();
 
-    img = imread("circle.jpg", 1);
+    img = imread("circles.png", 1);
 
     Mat gray;
     cvtColor(img, gray, COLOR_BGR2GRAY);
@@ -274,17 +272,16 @@ static void LB14()
 
     HoughCircles(gray, circles, HOUGH_GRADIENT, 1,
         gray.rows / 16, // change this value to detect circles with
-        //different distances to each other
-        100, 30, 1, 30 // change the last two parameters
-    ); // (min_radius & max_radius) to detect larger circles
+        100, 36, 1, 160
+    );
 
     for (size_t i = 0; i < circles.size(); i++)
     {
         Vec3i c = circles[i];
         Point center = Point(c[0], c[1]);
-        // circle center
-        circle(img, center, 1, Scalar(0, 100, 100), 3, LINE_AA);
-        // circle outline
+
+        circle(img, center, 1, Scalar(0, 0, 0), 3, LINE_AA);
+
         int radius = c[2]; 
         circle(img, center, radius, Scalar(255, 0, 255), 3, LINE_AA);
     }
@@ -302,10 +299,10 @@ static void LB15()
     imgCH = imread("list.png", 1);
     cvtColor(imgCH, src_gray, COLOR_BGR2GRAY);
 
-    namedWindow(source_window);
+    namedWindow(SOURCE_WINDOW);
     thresh = 200;
 
-    imshow(source_window, imgCH);
+    imshow(SOURCE_WINDOW, imgCH);
     cornerHarris_demo(0, 0);
 
     waitKey();
@@ -314,8 +311,8 @@ static void LB15()
     RNG rng(12345);
     cvtColor(img, src_gray, COLOR_BGR2GRAY);
 
-    namedWindow(source_window);
-    imshow(source_window, img);
+    namedWindow(SOURCE_WINDOW);
+    imshow(SOURCE_WINDOW, img);
 
     goodFeaturesToTrack(src_gray,corners, 50, 0.01, 10, Mat(), 3, false, 0.04); 
     cout << "** Number of corners detected: " << corners.size() << endl;
@@ -341,32 +338,11 @@ static void LB16()
 
 int main()
 {
-    int input;
-    cout << "LB12 - LB16\n";
-
-    cout << "1. LB12\n";
-    cout << "2. LB13\n";
-    cout << "3. LB14\n";
-    cout << "4. LB15\n";
-    cout << "5. LB16\n";
-    cout << "0. Exit\n";
-    cout << "Selection: ";
-    cin >> input;
-
-    switch (input) {
-
-    case 1: LB12(); break;
-    case 2: LB13(); break;
-    case 3: LB14(); break;
-    case 4: LB15(); break;
-    case 5: LB15(); break;
-    case 0: cout << "Exiting...\n"; break;
-
-    default:
-        cout << "Error, bad input, quitting...\n";
-        break;
-    }
-    cin.get();
+    //LB12();
+    //LB13();
+    LB14();
+    //LB15();
+    //LB16();
 }
 
 
