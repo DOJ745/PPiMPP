@@ -1,42 +1,52 @@
-﻿// Laba11-1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-#include <opencv2/opencv.hpp>
-#include <iostream>
-using namespace cv;
-
+﻿#include <opencv2/opencv.hpp>
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc.hpp"
+#include <opencv2/core/mat.hpp>
+
+#include <iostream>
+using namespace cv;
 using namespace std;
 
 // CONSTANTS
 
-Mat src_gray;
-int thresh = 100;
-RNG rng(12345);
+Mat SRC_GRAY;
+int Thresh = 100;
+RNG RandomNumGen(12345);
 
 void thresh_callback(int, void*);
 
 void thresh_callback(int, void*)
 {
     Mat canny_output;
-    Canny(src_gray, canny_output, thresh, thresh * 2);
-    vector<vector<Point> > contours;
+    Canny(SRC_GRAY, canny_output, Thresh, Thresh * 2);
+
+    vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
+
     findContours(canny_output, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
     Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
-    cout << (int)contours.size() + "";
+    cout << "Contours size - " << (int)contours.size();
+
     for (size_t i = 0; i < contours.size(); i++)
     {
-        Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
+        Scalar color = Scalar(
+            RandomNumGen.uniform(0, 256), 
+            RandomNumGen.uniform(0, 256), 
+            RandomNumGen.uniform(0, 256)
+        );
+
         drawContours(drawing, contours, (int)i, color, 2, LINE_8, hierarchy, 0);
     }
 }
 
-Mat imgCH;
+Mat IMG_CH;
 int max_thresh = 255;
+
 const char* SOURCE_WINDOW = "SOURCE image";
 const char* corners_window = "CORNERS detected";
+
 void cornerHarris_demo(int, void*);
 
 void cornerHarris_demo(int, void*)
@@ -44,21 +54,20 @@ void cornerHarris_demo(int, void*)
     int blockSize = 2;
     int apertureSize = 3;
     double k = 0.04;
-    // определение углов
-    Mat dst = Mat::zeros(imgCH.size(), CV_32FC1);
-    cornerHarris(src_gray, dst, blockSize, apertureSize, k);
-    // нормализация выходного вектора углов
+
+    Mat dst = Mat::zeros(IMG_CH.size(), CV_32FC1);
+    cornerHarris(SRC_GRAY, dst, blockSize, apertureSize, k);
+
     Mat dst_norm, dst_norm_scaled;
+
     normalize(dst, dst_norm, 0, 255, NORM_MINMAX, CV_32FC1, Mat());
     convertScaleAbs(dst_norm, dst_norm_scaled);
-    // рисование кругов вокруг углов
-    // параметр thresh определяет порог отсечения (0-255)
-    // чем он меньше, тем больше точек будет отрисовано
+
     for (int i = 0; i < dst_norm.rows; i++)
     {
         for (int j = 0; j < dst_norm.cols; j++)
         {
-            if ((int)dst_norm.at<float>(i, j) > thresh)
+            if ((int)dst_norm.at<float>(i, j) > Thresh)
             {
                 circle(dst_norm_scaled, Point(j, i), 5, Scalar(0), 2, 8, 0);
             }
@@ -78,7 +87,7 @@ static void LB12()
     kernelMatrix[1] = -1;
     kernelMatrix[2] = -1;
 
-    kernelMatrix[3] =-1;
+    kernelMatrix[3] = -1;
     kernelMatrix[4] = 9;
     kernelMatrix[5] = -1;
 
@@ -155,7 +164,7 @@ static void LB13()
 
     for (;;)
     {
-        capture >> frame; // read the next frame from camera
+        capture >> frame;
         if (frame.empty())
         {
             cout << "ERROR: Can't grab camera frame." << endl;
@@ -190,7 +199,6 @@ static void LB13()
             blur(frame, img, Size(3, 3));
             cvtColor(img, grayImg, COLOR_RGB2GRAY); 
 
-            // применение детектора Кэнни
             Canny(grayImg, edgesImg, lowThreshold, uppThreshold);
 
             imshow("EDGES Frame", edgesImg);
@@ -211,15 +219,15 @@ static void LB13()
 
 static void LB14() 
 {
-    Mat img = imread("money.jpg", 1),contorImg;
+    Mat img = imread("stars.png", 1), contorImg;
 
-    cvtColor(img, src_gray, COLOR_BGR2GRAY);
+    cvtColor(img, SRC_GRAY, COLOR_BGR2GRAY);
 
-    blur(src_gray, src_gray, Size(9, 9));
-    threshold(src_gray, src_gray, 250, 255, THRESH_BINARY_INV);
+    blur(SRC_GRAY, SRC_GRAY, Size(9, 9));
+    threshold(SRC_GRAY, SRC_GRAY, 195, 255, THRESH_BINARY_INV);
 
-    erode(src_gray, src_gray, Mat(), Point(-1, -1), 10);
-    imshow("Grey money", src_gray);
+    erode(SRC_GRAY, SRC_GRAY, Mat(), Point(-1, -1), 10);
+    imshow("CONTURES", SRC_GRAY);
 
     waitKey();
 
@@ -296,37 +304,40 @@ static void LB14()
 static void LB15() 
 {
 
-    imgCH = imread("list.png", 1);
-    cvtColor(imgCH, src_gray, COLOR_BGR2GRAY);
+    IMG_CH = imread("list.png", 1);
+    cvtColor(IMG_CH, SRC_GRAY, COLOR_BGR2GRAY);
 
     namedWindow(SOURCE_WINDOW);
-    thresh = 200;
+    Thresh = 200;
 
-    imshow(SOURCE_WINDOW, imgCH);
+    imshow(SOURCE_WINDOW, IMG_CH);
     cornerHarris_demo(0, 0);
 
     waitKey();
 
-    Mat img = imread("list.png", 1),corners;
-    RNG rng(12345);
-    cvtColor(img, src_gray, COLOR_BGR2GRAY);
+    Mat img = imread("list.png", 1);
+
+    vector<Point2f>  corners;
+    RNG RandomNumGen(12345);
+
+    cvtColor(img, SRC_GRAY, COLOR_BGR2GRAY);
 
     namedWindow(SOURCE_WINDOW);
     imshow(SOURCE_WINDOW, img);
 
-    goodFeaturesToTrack(src_gray,corners, 50, 0.01, 10, Mat(), 3, false, 0.04); 
-    cout << "** Number of corners detected: " << corners.size() << endl;
+    goodFeaturesToTrack(SRC_GRAY, corners, 50, 0.01, 10, Mat(), 3, false, 0.04); 
+    cout << "Number of corners detected: " << corners.size() << endl;
 
     int radius = 4;
 
-    /*for (size_t i = 0; i < corners.size(); i++)
+    for (size_t i = 0; i < corners.size(); i++)
     {
-        circle(copy, corners[i], radius, Scalar(rng.uniform(0, 255),
-            rng.uniform(0, 256), rng.uniform(0, 256)), FILLED);
+        circle(IMG_CH, corners[i], radius, Scalar(RandomNumGen.uniform(0, 255),
+            RandomNumGen.uniform(0, 256), RandomNumGen.uniform(0, 256)), FILLED);
     }
-    namedWindow(source_window);
+    namedWindow(SOURCE_WINDOW);
 
-    imshow(source_window, copy);*/
+    imshow(SOURCE_WINDOW, IMG_CH);
      
     waitKey();
 }
@@ -340,8 +351,8 @@ int main()
 {
     //LB12();
     //LB13();
-    LB14();
-    //LB15();
+    //LB14();
+    LB15();
     //LB16();
 }
 
