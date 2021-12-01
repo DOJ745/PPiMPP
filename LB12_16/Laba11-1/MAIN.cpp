@@ -14,19 +14,18 @@ Mat SRC_GRAY;
 int Thresh = 100;
 RNG RandomNumGen(12345);
 
-void thresh_callback(int, void*);
-
-void thresh_callback(int, void*)
+void draw_contures(int, void*);
+void draw_contures(int, void*)
 {
-    Mat canny_output;
-    Canny(SRC_GRAY, canny_output, Thresh, Thresh * 2);
+    Mat canny_input;
+    Canny(SRC_GRAY, canny_input, Thresh, Thresh * 2);
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
 
-    findContours(canny_output, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    findContours(canny_input, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-    Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
+    Mat drawing = Mat::zeros(canny_input.size(), CV_8UC3);
     cout << "Contours size - " << (int)contours.size();
 
     for (size_t i = 0; i < contours.size(); i++)
@@ -46,10 +45,9 @@ Mat IMG_CH;
 int max_thresh = 255;
 
 const char* SOURCE_WINDOW = "SOURCE image";
-const char* corners_window = "CORNERS detected";
+const char* corners_window = "HARRIS FUNC CORNERS detected";
 
 void cornerHarris_demo(int, void*);
-
 void cornerHarris_demo(int, void*)
 {
     int blockSize = 2;
@@ -229,13 +227,11 @@ static void LB14()
 
     erode(SRC_GRAY, SRC_GRAY, Mat(), Point(-1, -1), 10);
 
-    waitKey();
-
     namedWindow(SOURCE_WINDOW);
     imshow(SOURCE_WINDOW, img);
 
     const int max_thresh = 255;
-    thresh_callback(0, 0);
+    draw_contures(0, 0);
 
     waitKey();
 
@@ -332,13 +328,43 @@ static void LB15()
 
     for (size_t i = 0; i < corners.size(); i++)
     {
-        circle(IMG_CH, corners[i], radius, Scalar(RandomNumGen.uniform(0, 255),
+        circle(IMG_CH, corners[i], radius, Scalar(RandomNumGen.uniform(0, 256),
             RandomNumGen.uniform(0, 256), RandomNumGen.uniform(0, 256)), FILLED);
     }
-    namedWindow(SOURCE_WINDOW);
 
+    namedWindow(SOURCE_WINDOW);
     imshow(SOURCE_WINDOW, IMG_CH);
      
+    waitKey();
+
+    Point2f srcTri[3];
+
+    srcTri[0] = Point2f(0.f, 0.f);
+    srcTri[1] = Point2f(IMG_CH.cols - 1.f, 0.f);
+    srcTri[2] = Point2f(0.f, IMG_CH.rows - 1.f);
+
+    Point2f dstTri[3];
+
+    dstTri[0] = Point2f(0.f, IMG_CH.rows * 0.33f);
+    dstTri[1] = Point2f(IMG_CH.cols * 0.85f, IMG_CH.rows * 0.25f);
+    dstTri[2] = Point2f(IMG_CH.cols * 0.15f, IMG_CH.rows * 0.7f);
+
+    Mat warp_mat = getAffineTransform(srcTri, dstTri);
+    Mat warp_dst = Mat::zeros(IMG_CH.rows, IMG_CH.cols, IMG_CH.type());
+
+    warpAffine(IMG_CH, warp_dst, warp_mat, warp_dst.size());
+
+    Point center = Point(warp_dst.cols / 2, warp_dst.rows / 2);
+    double angle = 90.0;
+    double scale = 1;
+    Mat rot_mat = getRotationMatrix2D(center, angle, scale);
+    Mat warp_rotate_dst;
+
+    warpAffine(warp_dst, warp_rotate_dst, rot_mat, warp_dst.size());
+
+    imshow("Warp", warp_dst);
+    imshow("Warp ROTATE", warp_rotate_dst);
+
     waitKey();
 }
 
@@ -351,8 +377,8 @@ int main()
 {
     //LB12();
     //LB13();
-    LB14();
-    //LB15();
+    //LB14();
+    LB15();
     //LB16();
 }
 
