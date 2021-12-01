@@ -223,7 +223,7 @@ static void LB14()
     cvtColor(img, SRC_GRAY, COLOR_BGR2GRAY);
 
     blur(SRC_GRAY, SRC_GRAY, Size(9, 9));
-    threshold(SRC_GRAY, SRC_GRAY, 195, 255, THRESH_BINARY_INV);
+    threshold(SRC_GRAY, SRC_GRAY, 200, 255, THRESH_BINARY_INV);
 
     erode(SRC_GRAY, SRC_GRAY, Mat(), Point(-1, -1), 10);
 
@@ -370,7 +370,50 @@ static void LB15()
 
 static void LB16() 
 {
+    // создание объект классификатора
 
+    CascadeClassifier faceCascade;
+    string faceCascadeName = "haarcascade_frontalface_alt.xml";
+    faceCascade.load(faceCascadeName);
+    // открытие видео с камеры
+    VideoCapture capture(0);
+    Mat frame;
+
+    if (!capture.isOpened()) {
+        cerr << "Unable to open: " << endl;
+    }
+    while (true)
+    {
+        capture >> frame;
+        // подготовка изображения
+        Mat grayFrame;
+        cvtColor(frame, grayFrame, COLOR_BGR2GRAY);
+        equalizeHist(grayFrame, grayFrame);
+        // обнаружение объектов
+        vector<Rect> faces;
+        faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 |
+            CASCADE_SCALE_IMAGE, Size(30, 30));
+        // перебор найденных объектов и отрисовка прямоугольников
+        for (int i = 0; i < faces.size(); i++)
+        {
+            Point center(faces[i].x + faces[i].width / 2,
+                faces[i].y + faces[i].height / 2);
+            Mat faceROI = grayFrame(faces[i]);
+            for (i = 0; i < faces.size(); i++)
+            {
+                rectangle(frame,
+                    Point(faces[i].x, faces[i].y),
+                    Point(faces[i].x + faces[i].width,
+                        faces[i].y + faces[i].height),
+                    CV_RGB(255, 0, 0), 2);
+            }
+        }
+        imshow("video", frame);
+        int key = waitKey(1);
+        if (key == 27/*ESC*/) break;
+    }
+
+    waitKey();
 }
 
 int main()
@@ -378,8 +421,8 @@ int main()
     //LB12();
     //LB13();
     //LB14();
-    LB15();
-    //LB16();
+    //LB15();
+    LB16();
 }
 
 
