@@ -39,6 +39,7 @@ void thresh_callback(int, void*)
 
         drawContours(drawing, contours, (int)i, color, 2, LINE_8, hierarchy, 0);
     }
+    imshow("CONTOROUS", drawing);
 }
 
 Mat IMG_CH;
@@ -227,7 +228,6 @@ static void LB14()
     threshold(SRC_GRAY, SRC_GRAY, 195, 255, THRESH_BINARY_INV);
 
     erode(SRC_GRAY, SRC_GRAY, Mat(), Point(-1, -1), 10);
-    imshow("CONTURES", SRC_GRAY);
 
     waitKey();
 
@@ -351,8 +351,8 @@ int main()
 {
     //LB12();
     //LB13();
-    //LB14();
-    LB15();
+    LB14();
+    //LB15();
     //LB16();
 }
 
