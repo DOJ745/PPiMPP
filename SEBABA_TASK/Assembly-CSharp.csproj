@@ -64,6 +64,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Classes\Scores.cs" />
+    <Compile Include="Assets\Scripts\UI\ButtonsLogic.cs" />
     <Compile Include="Assets\Skyboard\Scripts\SmoothFollow.cs" />
     <None Include="Assets\Skyboard\Shaders\Floor shader.shader" />
     <None Include="Assets\Skyboard\Models\Planet\Atmosphere.shader" />
