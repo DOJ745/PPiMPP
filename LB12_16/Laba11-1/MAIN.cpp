@@ -76,11 +76,10 @@ void cornerHarris_demo(int, void*)
     imshow(corners_window, dst_norm_scaled);
 }
 
-CascadeClassifier faceCascade, eyesCascade, mouthCascade;
+CascadeClassifier faceCascade, eyesCascade;
 
 string faceCascadeName = "frontal_face2.xml";
-string eyesCascadeName = "eyes.xml";
-string mouthCascadeName = "mouth.xml";
+string eyesCascadeName = "eyes2.xml";
 
 void detectAndDisplay(Mat frame);
 void detectAndDisplay(Mat frame)
@@ -88,7 +87,6 @@ void detectAndDisplay(Mat frame)
 
     Mat frame_gray;
     cvtColor(frame, frame_gray, COLOR_BGR2GRAY);
-
     equalizeHist(frame_gray, frame_gray);
 
     vector<Rect> faces;
@@ -121,23 +119,8 @@ void detectAndDisplay(Mat frame)
             circle(frame, eye_center, radius, Scalar(255, 0, 0), 4);
         }
 
-        vector<Rect> mouths;
-        mouthCascade.detectMultiScale(faceROI, mouths);
-
-        for (size_t j = 0; j < mouths.size(); j++)
-        {
-            Point mouth_center(
-                faces[i].x + mouths[j].x + mouths[j].width / 2,
-                faces[i].y + mouths[j].y + mouths[j].height / 2);
-
-            int radius = cvRound(
-                ((double)mouths[j].width + (double)mouths[j].height) * 0.28
-            );
-
-            circle(frame, mouth_center, radius, Scalar(255, 55, 255), 2);
-        }
     }
-    //-- Show what you got
+
     imshow("Capture - Face detection", frame);
 }
 
@@ -435,55 +418,8 @@ static void LB15()
 
 static void LB16() 
 {
-    /*
-    VideoCapture capture(0);
-    Mat frame;
-
-    if (!capture.isOpened()) {
-        cerr << "Unable to open: " << endl;
-    }
-    while (true)
-    {
-        capture >> frame;
-
-        Mat grayFrame;
-        cvtColor(frame, grayFrame, COLOR_BGR2GRAY);
-        equalizeHist(grayFrame, grayFrame);
-
-        vector<Rect> faces;
-        vector<Rect> eyes;
-
-        faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 |
-            CASCADE_SCALE_IMAGE, Size(30, 30));
-
-        for (int i = 0; i < faces.size(); i++)
-        {
-            Point center(faces[i].x + faces[i].width / 2,
-                faces[i].y + faces[i].height / 2);
-
-            Mat faceROI = grayFrame(faces[i]);
-
-            for (i = 0; i < faces.size(); i++)
-            {
-                rectangle(frame,
-                    Point(faces[i].x, faces[i].y),
-                    Point(faces[i].x + faces[i].width,
-                        faces[i].y + faces[i].height),
-                    CV_RGB(255, 0, 0), 2);
-            }
-        }
-
-        imshow("video", frame);
-        int key = waitKey(1);
-        if (key == 27) break;
-    }
-
-    waitKey();*/
-
-
     faceCascade.load(faceCascadeName);
     eyesCascade.load(eyesCascadeName);
-    mouthCascade.load(mouthCascadeName);
 
     VideoCapture capture(0);
 
