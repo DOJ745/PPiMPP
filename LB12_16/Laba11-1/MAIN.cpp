@@ -18,12 +18,12 @@ void draw_contures(int, void*);
 void draw_contures(int, void*)
 {
     Mat canny_input;
-    Canny(SRC_GRAY, canny_input, Thresh, Thresh * 2);
+    Canny(SRC_GRAY, canny_input, Thresh, (double)Thresh * (double)2);
 
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
 
-    findContours(canny_input, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    findContours(canny_input, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
 
     Mat drawing = Mat::zeros(canny_input.size(), CV_8UC3);
     cout << "Contours size - " << (int)contours.size();
@@ -266,12 +266,18 @@ static void LB13()
 
 static void LB14() 
 {
-    Mat img = imread("stars.png", 1), contorImg;
+    Mat img = imread("star.png", 1), contorImg;
 
     cvtColor(img, SRC_GRAY, COLOR_BGR2GRAY);
 
     blur(SRC_GRAY, SRC_GRAY, Size(9, 9));
     threshold(SRC_GRAY, SRC_GRAY, 200, 255, THRESH_BINARY_INV);
+    
+    namedWindow("GRAY IMAGE");
+    imshow("GRAY IMAGE", SRC_GRAY);
+
+    waitKey();
+
 
     erode(SRC_GRAY, SRC_GRAY, Mat(), Point(-1, -1), 10);
 
