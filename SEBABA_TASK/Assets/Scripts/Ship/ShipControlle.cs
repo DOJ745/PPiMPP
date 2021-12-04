@@ -15,7 +15,6 @@ public class ShipControlle : MonoBehaviour
     private Rigidbody rigidBody;
     private Transform currentTransform;
 
-    //private Quaternion target;
     // Start is called before the first frame update
     void Start()
     {

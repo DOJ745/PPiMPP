@@ -74,6 +74,8 @@
     <None Include="Assets\Skyboard\Models\Planet\Atmosphere.shader" />
     <None Include="Assets\Skyboard\Models\Planet\Planet.shader" />
     <None Include="Assets\Skyboard\Models\Planet\PlanetLow.shader" />
+    <None Include="Assets\Fonts\Space Adventure\license.txt" />
+    <None Include="Assets\Fonts\Space Adventure\COPYRIGHT.txt" />
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>H:/LabsFolder/_4_1/PPiMPP/SEBABA_TASK/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
