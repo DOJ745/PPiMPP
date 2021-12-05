@@ -8,6 +8,7 @@ public class Timer : MonoBehaviour
 {
     [Header("Settings")]
     public float timeStart = 0f;
+    public int currentScore = 0;
 
     [Header("Text pannels")]
     public Text textTimer;
@@ -19,7 +20,6 @@ public class Timer : MonoBehaviour
 
     private GameDataManager gameDataManager;
 
-    private int currentScore = 105;
     private int highscore;
     void Start()
     {
