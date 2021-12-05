@@ -67,7 +67,7 @@
     <Compile Include="Assets\Scripts\Asteroid\RotationAnim.cs" />
     <Compile Include="Assets\Scripts\GameData\GameDataManager.cs" />
     <Compile Include="Assets\Scripts\GameData\Scores.cs" />
-    <Compile Include="Assets\Scripts\Ship\ShipControlle.cs" />
+    <Compile Include="Assets\Scripts\Ship\ShipController.cs" />
     <Compile Include="Assets\Scripts\UI\ButtonsLogic.cs" />
     <Compile Include="Assets\Scripts\UI\Timer.cs" />
     <Compile Include="Assets\Skyboard\Scripts\SmoothFollow.cs" />

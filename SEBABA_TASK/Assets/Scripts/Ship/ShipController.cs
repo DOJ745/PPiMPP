@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipControlle : MonoBehaviour
+public class ShipController : MonoBehaviour
 {
     [Header("Settings")]
     public float speed = 5f;

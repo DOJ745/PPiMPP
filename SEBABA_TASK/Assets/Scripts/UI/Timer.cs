@@ -18,14 +18,18 @@ public class Timer : MonoBehaviour
     public GameObject gameDataManagerObj;
 
     private GameDataManager gameDataManager;
-    private int currentScore = 0;
+
+    private int currentScore = 105;
     private int highscore;
     void Start()
     {
         gameDataManager = gameDataManagerObj.GetComponent<GameDataManager>();
+
         highscore = gameDataManager.readScores().scoreTable.Max();
         highscorePanel.text += " " + highscore.ToString();
         scorePanel.text += " " + currentScore.ToString();
+
+        InvokeRepeating("AddScore", 0.0f, 1.0f);
     }
 
     void Update()
@@ -35,9 +39,20 @@ public class Timer : MonoBehaviour
         int seconds = (int)(timeStart % 60);
         int minutes = (int)(timeStart / 60) % 60;
 
-        currentScore = seconds;
-
         textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        scorePanel.text = "Score: " + string.Format("{0}", currentScore);
+        scorePanel.text = "Score: " + currentScore;
+
+        if (currentScore > highscore)
+        {
+            highscore = currentScore;
+            highscorePanel.text = "Highscore: " + highscore;
+        }
+            
+    }
+
+    private void AddScore()
+    {
+        if (Input.GetKey(KeyCode.Space)) { currentScore += 2; }
+        else { currentScore += 1; }
     }
 }

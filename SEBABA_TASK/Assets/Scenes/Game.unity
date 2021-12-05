@@ -669,6 +669,7 @@ MonoBehaviour:
   minSpeed: 5
   maxRotate: 40
   minRotate: -40
+  gameDataManagerObj: {fileID: 0}
 --- !u!1 &499711667
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,8 +844,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeStart: 0
+  ship: {fileID: 0}
   textTimer: {fileID: 735522377}
-  highscoreText: {fileID: 585593906}
+  scorePanel: {fileID: 1922621159}
+  highscorePanel: {fileID: 585593906}
   gameDataManagerObj: {fileID: 50800300}
 --- !u!114 &534669907
 MonoBehaviour:
