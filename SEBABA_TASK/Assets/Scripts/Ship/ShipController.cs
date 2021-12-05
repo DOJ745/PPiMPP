@@ -36,9 +36,9 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        //float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, speed);
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -63,6 +63,11 @@ public class ShipController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             speed += 0.15f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            speed = minSpeed;
         }
 
         LimitSpeed();

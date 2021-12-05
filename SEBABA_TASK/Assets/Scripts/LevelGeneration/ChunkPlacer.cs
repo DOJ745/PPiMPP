@@ -19,7 +19,7 @@ public class ChunkPlacer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ship.position.z + 2 > spawnedChunks[spawnedChunks.Count - 1].end.position.z)
+        if(ship.position.z > spawnedChunks[spawnedChunks.Count - 1].end.position.z - 100)
         {
             SpawnChunks();
         }
@@ -32,7 +32,7 @@ public class ChunkPlacer : MonoBehaviour
 
         spawnedChunks.Add(newChunk);
 
-        if (spawnedChunks.Count >= 2)
+        if (spawnedChunks.Count >= 15)
         {
             Destroy(spawnedChunks[0].gameObject);
             spawnedChunks.RemoveAt(0);
