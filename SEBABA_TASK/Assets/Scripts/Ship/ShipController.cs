@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShipController : MonoBehaviour
 {
@@ -23,6 +24,29 @@ public class ShipController : MonoBehaviour
     private Transform currentTransform;
 
     private GameDataManager gameDataManager;
+
+    private void OnCollisionEnter(Collision myCollision)
+    {
+        if (myCollision.gameObject.name == "Asteroid")
+        {
+            Debug.Log("Hit the Asteroid");
+            GameObject.Find("Ship").transform.localScale = new Vector3(0f, 0f, 0f);
+            GameObject.Find("Flame Left").transform.localScale = new Vector3(0f, 0f, 0f);
+            GameObject.Find("Flame Right").transform.localScale = new Vector3(0f, 0f, 0f);
+            StartCoroutine(holdLoading());
+        }
+    }
+    private IEnumerator holdLoading()
+    {
+
+        Debug.Log("Started at timestamp : " + Time.time);
+
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene("MainMenu");
+
+        Debug.Log("Finished at timestamp : " + Time.time);
+    }
 
 
     // Start is called before the first frame update
