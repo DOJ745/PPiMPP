@@ -18,26 +18,33 @@ public class ShipController : MonoBehaviour
     public float maxRotate = 40f;
     public float minRotate = -40f;
 
-    [Header("Score data")]
-    public GameObject gameDataManagerObj;
-
     private Rigidbody rigidBody;
     private Transform currentTransform;
 
-    private GameDataManager gameDataManager;
+    private Timer scoreData;
 
     private void OnCollisionEnter(Collision myCollision)
     {
-        if (myCollision.gameObject.name == "Asteroid")
+        if (myCollision.gameObject.name.Contains("Asteroid"))
         {
             Debug.Log("Hit the Asteroid");
             this.transform.localScale = new Vector3(0f, 0f, 0f);
+
+            scoreData = Camera.main.GetComponent<Timer>();
+            GameObject gameDataManagerObj = scoreData.gameDataManagerObj;
+
+            GameDataManager gameDataManager = gameDataManagerObj.GetComponent<GameDataManager>();
+
+            Scores currentScores = gameDataManager.readScores();
+            currentScores.addScore(scoreData.currentScore);
+            gameDataManager.writeFile(currentScores);
+
 
             Destroy(GameObject.Find("Flame Left"));
             Destroy(GameObject.Find("Flame Right"));
             Destroy(GameObject.Find("Trail Left"));
             Destroy(GameObject.Find("Trail Right"));
-            Destroy(this.GetComponent<Rigidbody>());
+            Destroy(GetComponent<Rigidbody>());
 
             StartCoroutine(holdLoading());
         }
@@ -46,7 +53,7 @@ public class ShipController : MonoBehaviour
     {
 
         Debug.Log("Started at timestamp : " + Time.time);
-
+        //Destroy(GameObject.Find("Main Camera").GetComponent<AsteroidSpawner>());
         yield return new WaitForSeconds(3);
 
         SceneManager.LoadScene("MainMenu");
@@ -66,6 +73,7 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
+        currentTransform.rotation = Quaternion.Euler(0, 0, currentTransform.rotation.eulerAngles.z);
 
         Vector3 movement = new Vector3(moveHorizontal * turnSpeed, 0.0f, speed);
 
