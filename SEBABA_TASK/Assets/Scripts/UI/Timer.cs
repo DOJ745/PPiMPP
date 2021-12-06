@@ -46,7 +46,7 @@ public class Timer : MonoBehaviour
         if (currentScore > highscore)
         {
             highscore = currentScore;
-            highscorePanel.text = "Highscore: " + highscore;
+            highscorePanel.text = "! NEW Highscore ! : " + highscore;
         }
             
     }

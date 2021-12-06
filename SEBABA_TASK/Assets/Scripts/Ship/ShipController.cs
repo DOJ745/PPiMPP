@@ -28,7 +28,10 @@ public class ShipController : MonoBehaviour
         if (myCollision.gameObject.name.Contains("Asteroid"))
         {
             Debug.Log("Hit the Asteroid");
-            this.transform.localScale = new Vector3(0f, 0f, 0f);
+
+            GameObject.Find("Sound Manager").GetComponent<AudioSource>().volume = 0;
+
+            transform.localScale = new Vector3(0f, 0f, 0f);
 
             scoreData = Camera.main.GetComponent<Timer>();
             GameObject gameDataManagerObj = scoreData.gameDataManagerObj;
@@ -39,26 +42,18 @@ public class ShipController : MonoBehaviour
             currentScores.addScore(scoreData.currentScore);
             gameDataManager.writeFile(currentScores);
 
-
-            Destroy(GameObject.Find("Flame Left"));
-            Destroy(GameObject.Find("Flame Right"));
-            Destroy(GameObject.Find("Trail Left"));
-            Destroy(GameObject.Find("Trail Right"));
-            Destroy(GetComponent<Rigidbody>());
-
+            destroyObjects();
             StartCoroutine(holdLoading());
         }
     }
     private IEnumerator holdLoading()
     {
 
-        Debug.Log("Started at timestamp : " + Time.time);
-        //Destroy(GameObject.Find("Main Camera").GetComponent<AsteroidSpawner>());
+        Debug.Log("Started EXITING AT: " + Time.time);
         yield return new WaitForSeconds(3);
 
         SceneManager.LoadScene("MainMenu");
-
-        Debug.Log("Finished at timestamp : " + Time.time);
+        Debug.Log("Finished EXITING AT: " + Time.time);
     }
 
 
@@ -67,6 +62,7 @@ public class ShipController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         currentTransform = GetComponent<Transform>();
+        //SoundManager.PlaySound("background");
     }
 
     // Update is called once per frame
@@ -107,9 +103,15 @@ public class ShipController : MonoBehaviour
             speed = minSpeed;
         }
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         LimitSpeed();
         LimitRotation();
-        rigidBody.AddForce(movement * speed);
+
+        if(rigidBody != null) { rigidBody.AddForce(movement * speed); }
     }
 
     private void SetDefRotation()
@@ -131,6 +133,16 @@ public class ShipController : MonoBehaviour
     {
         speed = (speed < maxSpeed) ? speed : maxSpeed;
         speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+    }
+
+    private void destroyObjects()
+    {
+        Destroy(GameObject.Find("Main Camera").GetComponent<AsteroidSpawner>());
+        Destroy(GameObject.Find("Flame Left"));
+        Destroy(GameObject.Find("Flame Right"));
+        Destroy(GameObject.Find("Trail Left"));
+        Destroy(GameObject.Find("Trail Right"));
+        Destroy(GetComponent<Rigidbody>());
     }
 
 }
