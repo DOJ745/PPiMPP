@@ -1,18 +1,20 @@
-﻿#include <opencv2/core.hpp>
+﻿#include <iostream>
 
 #include <opencv2/opencv.hpp>
-#include "opencv2/highgui.hpp"
 #include "opencv2/imgcodecs.hpp"
-#include "opencv2/imgproc.hpp"
 #include <opencv2/core/mat.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/video.hpp>
 
-//#include <opencv2/optflow/motempl.hpp>
+#include "opencv2/optflow.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/videoio.hpp"
+#include "opencv2/highgui.hpp"
+#include <time.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#include <iostream>
 using namespace cv;
 using namespace std;
+using namespace cv::motempl;
 
 // CONSTANTS
 
@@ -566,11 +568,6 @@ static void LB17_2()
     }
 }
 
-static void LB17_3()
-{
-
-}
-
 int main()
 {
     //LB12();
@@ -579,9 +576,6 @@ int main()
     //LB15();
     //LB16();
 
-    LB17_1();
+    //LB17_1();
     //LB17_2();
-    //LB17_3();
 }
-
-
