@@ -7,6 +7,7 @@ public class ShipController : MonoBehaviour
 {
     [Header("Settings")]
     public float speed = 5f;
+    public float turnSpeed = 5f;
     public float rotationSpeed = 50f;
 
     [Header("Limit Speed")]
@@ -30,9 +31,14 @@ public class ShipController : MonoBehaviour
         if (myCollision.gameObject.name == "Asteroid")
         {
             Debug.Log("Hit the Asteroid");
-            GameObject.Find("Ship").transform.localScale = new Vector3(0f, 0f, 0f);
-            GameObject.Find("Flame Left").transform.localScale = new Vector3(0f, 0f, 0f);
-            GameObject.Find("Flame Right").transform.localScale = new Vector3(0f, 0f, 0f);
+            this.transform.localScale = new Vector3(0f, 0f, 0f);
+
+            Destroy(GameObject.Find("Flame Left"));
+            Destroy(GameObject.Find("Flame Right"));
+            Destroy(GameObject.Find("Trail Left"));
+            Destroy(GameObject.Find("Trail Right"));
+            Destroy(this.GetComponent<Rigidbody>());
+
             StartCoroutine(holdLoading());
         }
     }
@@ -61,7 +67,7 @@ public class ShipController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, speed);
+        Vector3 movement = new Vector3(moveHorizontal * turnSpeed, 0.0f, speed);
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -100,17 +106,14 @@ public class ShipController : MonoBehaviour
 
     private void SetDefRotation()
     {
-        currentTransform.rotation = Quaternion.Euler(
-                currentTransform.rotation.eulerAngles.x,
-                currentTransform.rotation.eulerAngles.y,
-                0);
+        currentTransform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void LimitRotation()
     {
         Vector3 targetEulerAngles = currentTransform.rotation.eulerAngles;
 
-        targetEulerAngles.z = (targetEulerAngles.z > 180) ? targetEulerAngles.z - 360 : targetEulerAngles.z;
+        targetEulerAngles.z = (targetEulerAngles.z > 180.0f) ? (targetEulerAngles.z - 360.0f) : targetEulerAngles.z;
         targetEulerAngles.z = Mathf.Clamp(targetEulerAngles.z, minRotate, maxRotate);
 
         currentTransform.rotation = Quaternion.Euler(targetEulerAngles);

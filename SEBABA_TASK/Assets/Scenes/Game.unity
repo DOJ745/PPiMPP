@@ -636,11 +636,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  turnSpeed: 3.85
   rotationSpeed: 200
   maxSpeed: 10
   minSpeed: 5
-  maxRotate: 40
-  minRotate: -40
+  maxRotate: 35
+  minRotate: -35
   gameDataManagerObj: {fileID: 0}
 --- !u!1 &499711667
 GameObject:
@@ -654,7 +655,7 @@ GameObject:
   - component: {fileID: 499711670}
   - component: {fileID: 499711669}
   m_Layer: 5
-  m_Name: PassedAsteroids
+  m_Name: Passed Asteroids
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -837,6 +838,9 @@ MonoBehaviour:
   height: 1.25
   heightDamping: 2
   rotationDamping: 3
+  zoomSpeedIn: 2
+  minDistance: 2.25
+  defaultDistance: 4.25
   target: {fileID: 1829313951}
 --- !u!1 &585593904
 GameObject:
@@ -5824,6 +5828,36 @@ TrailRenderer:
   m_MinVertexDistance: 0.15
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!1 &987555716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987555717}
+  m_Layer: 0
+  m_Name: Music Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &987555717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987555716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4414458, y: 0.19343281, z: 12.908475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1197558072
 GameObject:
   m_ObjectHideFlags: 0
@@ -10521,37 +10555,6 @@ Transform:
   m_Father: {fileID: 1829313951}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!1 &1243411074
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1243411075}
-  m_Layer: 0
-  m_Name: Ship
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1243411075
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243411074}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.072, z: 2.64}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1829313951}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312510071
 GameObject:
   m_ObjectHideFlags: 0
@@ -10623,7 +10626,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1243411075}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 100006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_Name
@@ -10640,23 +10643,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.072
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.64
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10664,7 +10667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: e7674e9ed06151745829c8f47cc06893, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11003,10 +11006,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 1392968455920433717, guid: d0343819a3e436046a03db5a01b06afc,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 86
+      objectReference: {fileID: 0}
     - target: {fileID: 1392968456309039711, guid: d0343819a3e436046a03db5a01b06afc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 1392968456309039711, guid: d0343819a3e436046a03db5a01b06afc,
         type: 3}
@@ -11016,7 +11024,7 @@ PrefabInstance:
     - target: {fileID: 1392968456309039711, guid: d0343819a3e436046a03db5a01b06afc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.92
+      value: 25.44
       objectReference: {fileID: 0}
     - target: {fileID: 1392968456309039711, guid: d0343819a3e436046a03db5a01b06afc,
         type: 3}
@@ -11058,6 +11066,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4716473856083890122, guid: d0343819a3e436046a03db5a01b06afc,
+        type: 3}
+      propertyPath: passedAsteroids
+      value: 
+      objectReference: {fileID: 499711669}
+    - target: {fileID: 4716473856083890122, guid: d0343819a3e436046a03db5a01b06afc,
+        type: 3}
+      propertyPath: gameDataManagerObj
+      value: 
+      objectReference: {fileID: 50800300}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0343819a3e436046a03db5a01b06afc, type: 3}
 --- !u!1001 &5018269629548392787

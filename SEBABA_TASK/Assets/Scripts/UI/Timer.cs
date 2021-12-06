@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour
     public Text textTimer;
     public Text scorePanel;
     public Text highscorePanel;
+    public Text passedAsteroids;
 
     [Header("Score data")]
     public GameObject gameDataManagerObj;
