@@ -30,10 +30,11 @@ if __name__ == '__main__':
 
     cv.namedWindow('motempl')
     visuals = ['input', 'frame_diff', 'motion_hist', 'grad_orient']
-    cv.createTrackbar('visual', 'motempl', 2, len(visuals)-1, nothing)
+    cv.createTrackbar('visual', 'motempl', 2, len(visuals) - 1, nothing)
     cv.createTrackbar('threshold', 'motempl', DEFAULT_THRESHOLD, 255, nothing)
 
     cam = cv.VideoCapture(video_src)
+    
     if not cam.isOpened():
         print("could not open video_src " + str(video_src) + " !\n")
         sys.exit(1)
@@ -74,17 +75,17 @@ if __name__ == '__main__':
             vis = frame_diff.copy()
 
         elif visual_name == 'motion_hist':
-            vis = np.uint8(np.clip((motion_history-(timestamp-MHI_DURATION)) / MHI_DURATION, 0, 1)*255)
+            vis = np.uint8(np.clip((motion_history - (timestamp - MHI_DURATION)) / MHI_DURATION, 0, 1)*255)
             vis = cv.cvtColor(vis, cv.COLOR_GRAY2BGR)
 
         elif visual_name == 'grad_orient':
-            hsv[:,:,0] = mg_orient/2
-            hsv[:,:,2] = mg_mask*255
+            hsv[:,:,0] = mg_orient / 2
+            hsv[:,:,2] = mg_mask * 255
             vis = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
 
         for i, rect in enumerate([(0, 0, w, h)] + list(seg_bounds)):
             x, y, rw, rh = rect
-            area = rw*rh
+            area = rw * rh
             if area < 64**2:
                 continue
             silh_roi   = motion_mask   [y:y+rh,x:x+rw]
