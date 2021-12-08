@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour
     public Text textTimer;
     public Text scorePanel;
     public Text highscorePanel;
+    public Text passedAsteroids;
 
     [Header("Score data")]
     public GameObject gameDataManagerObj;
@@ -45,7 +46,7 @@ public class Timer : MonoBehaviour
         if (currentScore > highscore)
         {
             highscore = currentScore;
-            highscorePanel.text = "Highscore: " + highscore;
+            highscorePanel.text = "! NEW Highscore ! : " + highscore;
         }
             
     }

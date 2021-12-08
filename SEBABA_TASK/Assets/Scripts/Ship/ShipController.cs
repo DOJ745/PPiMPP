@@ -7,6 +7,7 @@ public class ShipController : MonoBehaviour
 {
     [Header("Settings")]
     public float speed = 5f;
+    public float turnSpeed = 5f;
     public float rotationSpeed = 50f;
 
     [Header("Limit Speed")]
@@ -17,35 +18,42 @@ public class ShipController : MonoBehaviour
     public float maxRotate = 40f;
     public float minRotate = -40f;
 
-    [Header("Score data")]
-    public GameObject gameDataManagerObj;
-
     private Rigidbody rigidBody;
     private Transform currentTransform;
 
-    private GameDataManager gameDataManager;
+    private Timer scoreData;
 
     private void OnCollisionEnter(Collision myCollision)
     {
-        if (myCollision.gameObject.name == "Asteroid")
+        if (myCollision.gameObject.name.Contains("Asteroid"))
         {
             Debug.Log("Hit the Asteroid");
-            GameObject.Find("Ship").transform.localScale = new Vector3(0f, 0f, 0f);
-            GameObject.Find("Flame Left").transform.localScale = new Vector3(0f, 0f, 0f);
-            GameObject.Find("Flame Right").transform.localScale = new Vector3(0f, 0f, 0f);
+
+            GameObject.Find("Sound Manager").GetComponent<AudioSource>().volume = 0;
+
+            transform.localScale = new Vector3(0f, 0f, 0f);
+
+            scoreData = Camera.main.GetComponent<Timer>();
+            GameObject gameDataManagerObj = scoreData.gameDataManagerObj;
+
+            GameDataManager gameDataManager = gameDataManagerObj.GetComponent<GameDataManager>();
+
+            Scores currentScores = gameDataManager.readScores();
+            currentScores.addScore(scoreData.currentScore);
+            gameDataManager.writeFile(currentScores);
+
+            destroyObjects();
             StartCoroutine(holdLoading());
         }
     }
     private IEnumerator holdLoading()
     {
 
-        Debug.Log("Started at timestamp : " + Time.time);
-
+        Debug.Log("Started EXITING AT: " + Time.time);
         yield return new WaitForSeconds(3);
 
         SceneManager.LoadScene("MainMenu");
-
-        Debug.Log("Finished at timestamp : " + Time.time);
+        Debug.Log("Finished EXITING AT: " + Time.time);
     }
 
 
@@ -54,14 +62,16 @@ public class ShipController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         currentTransform = GetComponent<Transform>();
+        //SoundManager.PlaySound("background");
     }
 
     // Update is called once per frame
     void Update()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
+        currentTransform.rotation = Quaternion.Euler(0, 0, currentTransform.rotation.eulerAngles.z);
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, speed);
+        Vector3 movement = new Vector3(moveHorizontal * turnSpeed, 0.0f, speed);
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -93,24 +103,27 @@ public class ShipController : MonoBehaviour
             speed = minSpeed;
         }
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         LimitSpeed();
         LimitRotation();
-        rigidBody.AddForce(movement * speed);
+
+        if(rigidBody != null) { rigidBody.AddForce(movement * speed); }
     }
 
     private void SetDefRotation()
     {
-        currentTransform.rotation = Quaternion.Euler(
-                currentTransform.rotation.eulerAngles.x,
-                currentTransform.rotation.eulerAngles.y,
-                0);
+        currentTransform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void LimitRotation()
     {
         Vector3 targetEulerAngles = currentTransform.rotation.eulerAngles;
 
-        targetEulerAngles.z = (targetEulerAngles.z > 180) ? targetEulerAngles.z - 360 : targetEulerAngles.z;
+        targetEulerAngles.z = (targetEulerAngles.z > 180.0f) ? (targetEulerAngles.z - 360.0f) : targetEulerAngles.z;
         targetEulerAngles.z = Mathf.Clamp(targetEulerAngles.z, minRotate, maxRotate);
 
         currentTransform.rotation = Quaternion.Euler(targetEulerAngles);
@@ -120,6 +133,16 @@ public class ShipController : MonoBehaviour
     {
         speed = (speed < maxSpeed) ? speed : maxSpeed;
         speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+    }
+
+    private void destroyObjects()
+    {
+        Destroy(GameObject.Find("Main Camera").GetComponent<AsteroidSpawner>());
+        Destroy(GameObject.Find("Flame Left"));
+        Destroy(GameObject.Find("Flame Right"));
+        Destroy(GameObject.Find("Trail Left"));
+        Destroy(GameObject.Find("Trail Right"));
+        Destroy(GetComponent<Rigidbody>());
     }
 
 }

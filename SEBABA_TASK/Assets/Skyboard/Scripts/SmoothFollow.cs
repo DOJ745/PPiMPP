@@ -2,10 +2,16 @@
 
 public class SmoothFollow : MonoBehaviour
 {
+    [Header("Settings")]
     public float distance = 10.0f;
     public float height = 5.0f;
     public float heightDamping = 2.0f;
     public float rotationDamping = 3.0f;
+    [Header("Zoom")]
+    public float zoomSpeedIn = 1.15f;
+    [Header("Limitations")]
+    public float minDistance = 10.0f;
+    public float defaultDistance = 10.0f;
     public Transform target;
 
     private void LateUpdate()
@@ -44,5 +50,14 @@ public class SmoothFollow : MonoBehaviour
 
         // Always look at the target
         transform.LookAt(target);
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            distance = (distance > minDistance) ? (distance -= zoomSpeedIn * Time.deltaTime): minDistance;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            distance = defaultDistance;
+        }
     }
 }
